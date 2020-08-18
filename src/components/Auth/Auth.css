@@ -1,0 +1,45 @@
+.Auth{
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    display: flex;
+    /* You can change this to `row` if you want the items side by side instead of stacked */
+    flex-direction: column;
+    background-color: #90a4ae;
+}
+
+.tabLayout{
+    width: 100%;
+    /*background-color: darkslategray;*/
+    padding-left: 35%;
+    padding-right: 35%;
+
+}
+
+.tabs {
+    border-radius: 10px;
+    height: 100%;
+    box-shadow: 1px 1px 2px #8c8c8c, 0 0 25px #d9d9d9;
+    background-color: #efebe9;
+}
+
+.tabs-content {
+    height: 100%;
+
+}
+
+.inputField{
+    width: 100%;
+    padding-right: 15%;
+    padding-left: 15%;
+}
+
+.btnSignIn{
+    font-weight: bold !important;
+    color: #2e7d32 !important;
+}
+
+.btnSignUp{
+    font-weight: bold !important;
+    color: #c62828 !important;
+}
