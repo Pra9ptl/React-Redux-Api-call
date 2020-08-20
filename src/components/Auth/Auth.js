@@ -9,10 +9,9 @@ import {
     LockOutlined,
     MailOutlined,
     SecurityScanOutlined,
-} from '@ant-design/icons';
-// import Axios from "../../Utility/AxiosAuth";
+} from '@ant-design/icons'
 import {useDispatch, useSelector} from "react-redux";
-import {signInAction} from "../../store/action/authAction";
+import {signInAction, signUpAction} from "../../store/action/authAction";
 
 const {TabPane} = Tabs;
 const {Option} = Select;
@@ -35,13 +34,12 @@ const Auth = props => {
             message.info("Loading...");
         }
         if(AuthReducer.tokenId){
-            message.success("Signed In...")
+            message.success("Signed In...");
+            console.log(AuthReducer.tokenId);
         }
     },[AuthReducer.error, AuthReducer.loading])
-
-    let selectedValue = "user";
     const onFinish = () => {
-        if (isSignIn) {
+        if (isSignIn === true) {
             //SignIn
             const data = {
                 email: email,
@@ -50,23 +48,29 @@ const Auth = props => {
             dispatch(signInAction(data));
         } else {
             //SignUp
+            const data = {
+                name: name,
+                email: email,
+                password: password,
+                role: role
+            }
+            dispatch(signUpAction(data));
         }
     };
-
-    function handleChange(value) {
-        selectedValue = value;
-    }
 
     const tabChangeHandler = activeTab => {
         setIsSignIn(activeTab);
         setEmail("");
         setPassword("");
         setName("");
-        setRole("");
+        setRole("user");
     };
 
     const inputChangeHandler = (field, event) => {
-        const {value} = event.target;
+        let value = event;
+        if(field !== "role") {
+            value = event.target.value;
+        }
         switch (field) {
             case 'name':
                 setName(value);
@@ -155,7 +159,9 @@ const Auth = props => {
                                         message: 'Please input your E-mail!',
                                     },
                                 ]}>
-                                    <Input prefix={<MailOutlined/>} type="email" placeholder="Email Address"/>
+                                    <Input prefix={<MailOutlined/>} type="email" placeholder="Email Address"
+                                           value={email}
+                                           onChange={e => inputChangeHandler("email", e)}/>
                                 </Form.Item>
                             </div>
                             <div className="inputField">
@@ -193,12 +199,15 @@ const Auth = props => {
                                         }),
                                     ]}
                                 >
-                                    <Input.Password prefix={<LockOutlined/>} placeholder="Re-enter Password"/>
+                                    <Input.Password prefix={<LockOutlined/>} placeholder="Re-enter Password"
+                                                    value={password}
+                                                    onChange={e => inputChangeHandler("password", e)}/>
                                 </Form.Item>
                             </div>
                             <div className="inputField">
                                 <Form.Item>
-                                    <Select defaultValue="user" style={{textAlign: "left"}} onChange={handleChange}>
+                                    <Select defaultValue={role} style={{textAlign: "left"}}
+                                            onChange={({value}) => inputChangeHandler("role", value)}>
                                         <Option prefix={<SecurityScanOutlined/>} value="user">User</Option>
                                         <Option prefix={<SecurityScanOutlined/>} value="publisher">Publisher</Option>
                                     </Select>

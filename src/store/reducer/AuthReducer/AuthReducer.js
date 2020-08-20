@@ -4,7 +4,12 @@ import InitialAuthState from './InitialAuthState';
 const AuthReducer = (state = InitialAuthState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_REGISTER:
-            return state;
+            return {
+            isSignedIn: true,
+            tokenId: action.payload,
+            loading: false,
+            error: ""
+        }
             break;
         case actionTypes.AUTH_SIGNIN:
             return {
@@ -21,7 +26,7 @@ const AuthReducer = (state = InitialAuthState, action) => {
                 error: ""
             };
             break;
-        case actionTypes.AUTH_SIGNIN_ERROR:
+        case actionTypes.AUTH_ERROR:
             return {
                 ...state,
                 loading: false,
